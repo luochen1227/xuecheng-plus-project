@@ -1,5 +1,5 @@
 ### 查询课程信息
-POST {{content_host}}/content/course/list?pageNo=1&pageSize=2
+POST {{gateway_host}}/content/course/list?pageNo=1&pageSize=2
 Content-Type: application/json
 
 {
@@ -9,7 +9,7 @@ Content-Type: application/json
 }
 
 ### 查询课程分类
-GET {{content_host}}/content/course-category/tree-nodes
+GET {{gateway_host}}/content/course-category/tree-nodes
 
 ### 新增课程
 POST {{content_host}}/content/course
@@ -42,3 +42,43 @@ Content-Type: application/json
 GET {{content_host}}/content/teachplan/117/tree-nodes
 Content-Type: application/json
 
+
+### 课程计划del
+DELETE {{content_host}}/content/teachplan/338
+### 添加课程索引
+GET {{search_host}}/search/course/list?pageNo=1&keywords=spring
+Content-Type: application/json
+
+
+### 密码模式
+POST {{auth_host}}/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username=stu1&password=111111
+
+### 授权码模式
+### 第一步申请授权码(浏览器请求)/oauth/authorize?client_id=c1&response_type=code&scope=all&redirect_uri=http://www.51xuecheng.cn
+### 第二步申请令牌
+POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=authorization_code&code=ohwdkO&redirect_uri=http://www.51xuecheng.cn
+
+### 密码模式
+POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username=t1&password=111111
+
+
+### 携带token访问资源服务
+GET http://localhost:63040/content/course/125
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsieHVlY2hlbmctcGx1cyJdLCJ1c2VyX25hbWUiOiJ6aGFuZ3NhbiIsInNjb3BlIjpbImFsbCJdLCJleHAiOjE3MDk4MTEyMDQsImF1dGhvcml0aWVzIjpbInAxIl0sImp0aSI6ImFlMzBlMjNkLTUxYjUtNGFhMS05Nzk2LTA3NmQ5N2IyNTMxZSIsImNsaWVudF9pZCI6IlhjV2ViQXBwIn0.Lax46Ns6tAFVfMn6MGuFVvoAt9JLORtNYMkyyB-MFOA
+### 测试
+GET http://localhost:63040/content/course/125
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsieHVlY2hlbmctcGx1cyJdLCJ1c2VyX25hbWUiOiJ7XCJjb21wYW55SWRcIjpcIjEyMzIxNDE0MjVcIixcImNyZWF0ZVRpbWVcIjpcIjIwMjItMDktMjhUMDg6MzI6MDNcIixcImlkXCI6XCI1MlwiLFwibmFtZVwiOlwiTeiAgeW4iFwiLFwic2V4XCI6XCIxXCIsXCJzdGF0dXNcIjpcIlwiLFwidXNlcm5hbWVcIjpcInQxXCIsXCJ1dHlwZVwiOlwiMTAxMDAyXCJ9Iiwic2NvcGUiOlsiYWxsIl0sImV4cCI6MTcwOTgzNTM0NywiYXV0aG9yaXRpZXMiOlsicDEiXSwianRpIjoiZTY0ZGE0NTgtZjM2MS00ZTY3LTgyN2QtNGEzNmEzMmYwZWYzIiwiY2xpZW50X2lkIjoiWGNXZWJBcHAifQ.aLIKMdz9Xf2xcPcItr4WJivcfCvagbbxUR8qWYE0kw0
+
+### 通过网关访问资源服务
+GET http://localhost:63010/content/course/125
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsieHVlY2hlbmctcGx1cyJdLCJ1c2VyX25hbWUiOiJ7XCJjb21wYW55SWRcIjpcIjEyMzIxNDE0MjVcIixcImNyZWF0ZVRpbWVcIjpcIjIwMjItMDktMjhUMDg6MzI6MDNcIixcImlkXCI6XCI1MlwiLFwibmFtZVwiOlwiTeiAgeW4iFwiLFwic2V4XCI6XCIxXCIsXCJzdGF0dXNcIjpcIlwiLFwidXNlcm5hbWVcIjpcInQxXCIsXCJ1dHlwZVwiOlwiMTAxMDAyXCJ9Iiwic2NvcGUiOlsiYWxsIl0sImV4cCI6MTcwOTgzNTM0NywiYXV0aG9yaXRpZXMiOlsicDEiXSwianRpIjoiZTY0ZGE0NTgtZjM2MS00ZTY3LTgyN2QtNGEzNmEzMmYwZWYzIiwiY2xpZW50X2lkIjoiWGNXZWJBcHAifQ.aLIKMdz9Xf2xcPcItr4WJivcfCvagbbxUR8qWYE0kw0
+
+###校验jwt令牌
+POST {{auth_host}}/auth/oauth/check_token?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsieHVlY2hlbmctcGx1cyJdLCJ1c2VyX25hbWUiOiJ7XCJjb21wYW55SWRcIjpcIjEyMzIxNDE0MjVcIixcImNyZWF0ZVRpbWVcIjpcIjIwMjItMDktMjhUMDg6MzI6MDNcIixcImlkXCI6XCI1MlwiLFwibmFtZVwiOlwiTeiAgeW4iFwiLFwic2V4XCI6XCIxXCIsXCJzdGF0dXNcIjpcIlwiLFwidXNlcm5hbWVcIjpcInQxXCIsXCJ1dHlwZVwiOlwiMTAxMDAyXCJ9Iiwic2NvcGUiOlsiYWxsIl0sImV4cCI6MTcwOTgzNTM0NywiYXV0aG9yaXRpZXMiOlsicDEiXSwianRpIjoiZTY0ZGE0NTgtZjM2MS00ZTY3LTgyN2QtNGEzNmEzMmYwZWYzIiwiY2xpZW50X2lkIjoiWGNXZWJBcHAifQ.aLIKMdz9Xf2xcPcItr4WJivcfCvagbbxUR8qWYE0kw0
+################扩展认证请求参数后######################
+###密码模式
+POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username={"username":"stu1","authType":"password","password":"111111"}
+### 申请验证码
+POST {{checkcode_host}}/checkcode/pic
+### 校验验证码
+POST {{checkcode_host}}/checkcode/verify?key=checkcode:c03d7fa1b7ce4e2e991d955275158a10&code=ywqm

@@ -25,4 +25,5 @@ public class TeachplanDto extends Teachplan {
 
   //小章节list
    private List<TeachplanDto> teachPlanTreeNodes;
+
 }

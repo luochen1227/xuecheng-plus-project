@@ -10,6 +10,7 @@ import com.xuecheng.content.mapper.CourseCategoryMapper;
 import com.xuecheng.content.mapper.CourseMarketMapper;
 import com.xuecheng.content.model.dto.*;
 import com.xuecheng.content.model.po.CourseBase;
+import com.xuecheng.content.model.po.CourseCategory;
 import com.xuecheng.content.model.po.CourseMarket;
 import com.xuecheng.content.service.CourseBaseInfoService;
 import lombok.extern.slf4j.Slf4j;
@@ -154,8 +155,12 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
 
         //通过courseCategoryMapper查询分类信息，将分类名称放在courseBaseInfoDto对象
         //todo：课程分类的名称设置到courseBaseInfoDto
-        List<CourseCategoryTreeDto> courseCategoryTreeDtos = courseCategoryMapper.selectTreeNodes(String.valueOf(courseId));
-        BeanUtils.copyProperties(courseCategoryTreeDtos,courseBaseInfoDto);
+        CourseCategory mtobj = courseCategoryMapper.selectById(courseBase.getMt());
+        String mtname = mtobj.getName();
+        courseBaseInfoDto.setMtName(mtname);
+        CourseCategory stobj = courseCategoryMapper.selectById(courseBase.getSt());
+        String stname = stobj.getName();
+        courseBaseInfoDto.setStName(stname);
         return courseBaseInfoDto;
 
     }
@@ -211,7 +216,6 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
                XueChengPlusException.cast("课程的价格不能为空并且必须大于0");
            }
         }
-
         //从数据库查询营销信息,存在则更新，不存在则添加
         Long id = courseMarketNew.getId();//主键
         CourseMarket courseMarket = courseMarketMapper.selectById(id);
@@ -227,10 +231,5 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
             int i = courseMarketMapper.updateById(courseMarket);
             return i;
         }
-
-
     }
-
-
-
 }
